@@ -1,4 +1,8 @@
+package tests;
+
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -8,22 +12,24 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class ReqresTests {
 
-    public static String BASE_URI = "https://reqres.in/";
+    @BeforeAll
+    public static void setUp() {
+        RestAssured.baseURI = "https://reqres.in/";
+    }
 
     @Test
     @DisplayName("GET")
     void singleUserTest() {
         given()
                 .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
                 .when()
                 .get("/api/users/2")
                 .then()
                 .assertThat()
+                .log().all()
                 .statusCode(200)
                 .body("data.id", is(2))
-                .body("support.text", is("To keep ReqRes free, contributions towards server costs are appreciated!"))
-                .log().all();
+                .body("support.text", is("To keep ReqRes free, contributions towards server costs are appreciated!"));
     }
 
     @Test
@@ -31,16 +37,15 @@ public class ReqresTests {
     void listResource() {
         given()
                 .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
                 .when()
                 .get("/api/unknown")
                 .then()
                 .assertThat()
+                .log().all()
                 .statusCode(200)
                 .body("total", is(12))
                 .body("data[1].name", is("fuchsia rose"))
-                .body("support.url", is("https://reqres.in/#support-heading"))
-                .log().all();
+                .body("support.url", is("https://reqres.in/#support-heading"));
     }
 
     @Test
@@ -49,16 +54,15 @@ public class ReqresTests {
         String data = "{ \"name\": \"morpheus\", \"job\": \"leader\"}";
         given()
                 .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
                 .body(data)
                 .when()
                 .post("/api/users")
                 .then()
                 .assertThat()
+                .log().all()
                 .statusCode(201)
                 .body("name", is("morpheus"))
-                .body("job", is("leader"))
-                .log().all();
+                .body("job", is("leader"));
     }
 
     @Test
@@ -67,15 +71,14 @@ public class ReqresTests {
         String data = "{ \"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\"}";
         given()
                 .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
                 .body(data)
                 .when()
                 .post("/api/register")
                 .then()
                 .assertThat()
+                .log().all()
                 .statusCode(200)
-                .body("token", is("QpwL5tke4Pnpja7X4"))
-                .log().all();
+                .body("token", is("QpwL5tke4Pnpja7X4"));
     }
 
     @Test
@@ -84,14 +87,13 @@ public class ReqresTests {
         String data = "{ \"name\": \"morpheus\", \"job\": \"zion resident\"}";
         given()
                 .contentType(ContentType.JSON)
-                .baseUri(BASE_URI)
                 .body(data)
                 .when()
                 .patch("/api/users/2")
                 .then()
                 .assertThat()
+                .log().all()
                 .statusCode(200)
-                .body("updatedAt", notNullValue())
-                .log().all();
+                .body("updatedAt", notNullValue());
     }
 }
