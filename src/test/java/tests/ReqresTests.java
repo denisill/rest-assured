@@ -6,6 +6,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +24,7 @@ public class ReqresTests {
     }
 
     @Test
+    @Disabled
     @DisplayName("Получение информации по пользователю по id")
     void singleUserTest() {
         given()

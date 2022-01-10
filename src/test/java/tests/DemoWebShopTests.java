@@ -5,6 +5,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
@@ -27,6 +28,7 @@ public class DemoWebShopTests {
     }
 
     @Test
+    @Disabled
     @DisplayName("Добавляем без авторизации на сайте книгу в корзину сначала через UI, затем через API " +
             "и проверяем что общее количество товара в корзине стало 2")
     public void testDemoWebShop() {
