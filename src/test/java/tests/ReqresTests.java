@@ -24,7 +24,6 @@ public class ReqresTests {
     }
 
     @Test
-    @Disabled
     @DisplayName("Получение информации по пользователю по id")
     void singleUserTest() {
         given()

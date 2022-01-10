@@ -28,7 +28,6 @@ public class DemoWebShopTests {
     }
 
     @Test
-    @Disabled
     @DisplayName("Добавляем без авторизации на сайте книгу в корзину сначала через UI, затем через API " +
             "и проверяем что общее количество товара в корзине стало 2")
     public void testDemoWebShop() {
