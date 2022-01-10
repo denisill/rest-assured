@@ -1,11 +1,15 @@
 package tests;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.restassured.AllureRestAssured;
+import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static filters.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -15,12 +19,14 @@ public class ReqresTests {
     @BeforeAll
     public static void setUp() {
         RestAssured.baseURI = "https://reqres.in/";
+        SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
     @Test
-    @DisplayName("GET")
+    @DisplayName("Получение информации по пользователю по id")
     void singleUserTest() {
         given()
+                .filter(new AllureRestAssured())
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/users/2")
@@ -33,9 +39,10 @@ public class ReqresTests {
     }
 
     @Test
-    @DisplayName("GET")
+    @DisplayName("Получение списка данных")
     void listResource() {
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/api/unknown")
@@ -49,10 +56,11 @@ public class ReqresTests {
     }
 
     @Test
-    @DisplayName("POST")
+    @DisplayName("Создание нового пользователя")
     void create() {
         String data = "{ \"name\": \"morpheus\", \"job\": \"leader\"}";
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .contentType(ContentType.JSON)
                 .body(data)
                 .when()
@@ -66,10 +74,11 @@ public class ReqresTests {
     }
 
     @Test
-    @DisplayName("POST")
+    @DisplayName("Успешная регистрация нового пользователя")
     void registerSuccessful() {
         String data = "{ \"email\": \"eve.holt@reqres.in\", \"password\": \"pistol\"}";
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .contentType(ContentType.JSON)
                 .body(data)
                 .when()
@@ -82,10 +91,11 @@ public class ReqresTests {
     }
 
     @Test
-    @DisplayName("PATCH")
+    @DisplayName("Обновление данных по пользователю")
     void update() {
         String data = "{ \"name\": \"morpheus\", \"job\": \"zion resident\"}";
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .contentType(ContentType.JSON)
                 .body(data)
                 .when()
